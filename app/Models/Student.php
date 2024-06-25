@@ -17,7 +17,7 @@ class Student extends Model
      *
      * @var array
      */
-    protected $fillable = ['nom', 'contact', 'birthday', 'matricule', 'tuteur_id', 'payment'];
+    protected $fillable = ['nom', 'contact', 'birthday', 'matricule', 'tuteur_id', 'payment', 'register'];
 
     /**
      * Get the tuteur that owns the Student
@@ -35,8 +35,13 @@ class Student extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function getPaymentFormatAttribute(): string
+    public function getPaymentFormatAttribute()
     {
-        return Carbon::parse($this->payment)->format('d/m/Y');
+        if ($this->payment) {
+            return Carbon::parse($this->payment)->format('d/m/Y');
+        }
+
+        return 'Aucun';
+
     }
 }

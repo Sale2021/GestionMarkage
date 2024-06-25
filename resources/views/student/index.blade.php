@@ -10,6 +10,7 @@
             <th>naissance</th>
             <th>contact</th>
             <th>date payment</th>
+            <th>Inscription</th>
             <th>Date</th>
             <th>Action</th>
         </tr>
@@ -23,7 +24,8 @@
             <td>{{ $row->nom }}</td>
             <td>{{ $row->birthday }}</td>
             <td>{{ $row->contact }}</td>
-            <td>{{ $row->payment_format }}</td>
+            <td><span @class(['text-danger'=> now() >= $row->payment_format])>{{ $row->payment_format }}</span></td>
+            <td>{{ $row->register }}</td>
             <td>{{ $row->created_at }}</td>
             <td>
                 <x-button-edit href="{{ route('student.edit', ['student' => $row]) }}" />

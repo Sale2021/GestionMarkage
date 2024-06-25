@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('contact');
             $table->date('birthday');
+            $table->date('register')->default(date('Y-m-d'));
             $table->date('payment')->nullable();
             $table->timestamps();
         });

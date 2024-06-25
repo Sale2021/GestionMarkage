@@ -29,11 +29,13 @@ class PaymentController extends Controller
     public function store(StorePaymentRequest $request)
     {
         $item = Payment::create($request->validated());
-        $today = Carbon::today();
-        // dd(intval($request->mois) - 1);
-        $item->student->update(['payment' => $today->addMonth(intval($request->mois) - 1)]);
-        // $item->student->save();
-        // dd($today->addMonth(intval($request->mois) - 1));
+        if ($item->student->payment) {
+            $date = new Carbon($item->student->payment);
+            $item->student->update(['payment' => $date->addMonth(intval($request->mois))]);
+        } else {
+            $date = new Carbon($item->student->register);
+            $item->student->update(['payment' => $date->addMonth(intval($request->mois))]);
+        }
         toastr()->success('Payment ajouter avec success!');
 
         return back();
