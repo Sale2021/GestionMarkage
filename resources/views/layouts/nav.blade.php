@@ -25,5 +25,8 @@
         <x-nav-link url='payment.index' name="Paiment">
             <i class="menu-icon tf-icons bx bx-money"></i>
         </x-nav-link>
+        <x-nav-link url='user.index' name="Utilisateur">
+            <i class="menu-icon tf-icons bx bx-user"></i>
+        </x-nav-link>
     </ul>
 </aside>

@@ -12,6 +12,11 @@ class PaymentController extends Controller
 {
     use DeleteAction;
 
+    public function print(Payment $payment)
+    {
+        return view('invoice', compact('payment'));
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -36,6 +41,7 @@ class PaymentController extends Controller
             $date = new Carbon($item->student->register);
             $item->student->update(['payment' => $date->addMonth(intval($request->mois))]);
         }
+        $item->generateId();
         toastr()->success('Payment ajouter avec success!');
 
         return back();

@@ -22,6 +22,9 @@
             <td>{{ $row->montant_format }}</td>
             <td>{{ $row->created_at }}</td>
             <td>
+                <a class="btn rounded-pill btn-icon btn-primary" href="{{ route('print',$row) }}">
+                    <i class="bx bx-printer bx-xs me-1"></i>
+                </a>
                 <x-button-edit href="{{ route('payment.edit', ['payment' => $row]) }}" />
                 <x-button-delete url="{{ url('payment/'.$row->id) }}" />
             </td>
