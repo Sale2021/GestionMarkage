@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helper\DateFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -17,14 +18,22 @@ class Payment extends Model
      *
      * @var array
      */
-    protected $fillable = ['student_id', 'mois', 'montant', 'reference'];
+    protected $fillable = ['reference', 'user_id', 'total'];
 
     /**
      * Get the student that owns the Payment
      */
-    public function student(): BelongsTo
+    public function students(): BelongsToMany
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsToMany(Student::class)->withPivot('quantity', 'montant');
+    }
+
+    /**
+     * Get the user that owns the Payment
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function generateId()

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Helper\DateFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 class Student extends Model
@@ -30,9 +30,9 @@ class Student extends Model
     /**
      * Get all of the payments for the Student
      */
-    public function payments(): HasMany
+    public function payments(): BelongsToMany
     {
-        return $this->hasMany(Payment::class);
+        return $this->belongsToMany(Payment::class)->withPivot('quantity', 'montant');
     }
 
     public function getPaymentFormatAttribute()

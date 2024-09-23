@@ -7,6 +7,7 @@ use App\Http\Requests\StorePaymentRequest;
 use App\Models\Payment;
 use App\Models\Student;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -14,6 +15,9 @@ class PaymentController extends Controller
 
     public function print(Payment $payment)
     {
+
+        $payment->loadSum('students as totaux', 'payment_student.montant');
+
         return view('invoice', compact('payment'));
     }
 
@@ -22,7 +26,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $rows = Payment::all();
+        $rows = Payment::with('students')->get();
+
         $student = Student::all();
 
         return view('payment.index', compact('rows', 'student'));
@@ -33,15 +38,20 @@ class PaymentController extends Controller
      */
     public function store(StorePaymentRequest $request)
     {
-        $item = Payment::create($request->validated());
-        if ($item->student->payment) {
-            $date = new Carbon($item->student->payment);
-            $item->student->update(['payment' => $date->addMonth(intval($request->mois))]);
-        } else {
-            $date = new Carbon($item->student->register);
-            $item->student->update(['payment' => $date->addMonth(intval($request->mois))]);
+        $payment = Payment::create(['user_id' => Auth::user()->id]);
+        $remise = $request->remise ? 35000 - $request->remise : 35000;
+        $payment->students()->attach($request->student_id, ['quantity' => $request->mois, 'montant' => $remise * $request->mois]);
+
+        foreach ($payment->students as $item) {
+            if ($item->payment) {
+                $date = new Carbon($item->payment);
+                $item->update(['payment' => $date->addMonth(intval($request->mois))]);
+            } else {
+                $date = new Carbon($item->register);
+                $item->update(['payment' => $date->addMonth(intval($request->mois))]);
+            }
         }
-        $item->generateId();
+        $payment->generateId();
         toastr()->success('Payment ajouter avec success!');
 
         return back();

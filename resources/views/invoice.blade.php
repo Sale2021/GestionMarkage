@@ -84,61 +84,43 @@
                         </div>
                     </div>
                     <hr />
-                    <div class="row">
-                        <div class="col-6">
-                            <div class=" p-sm-3 p-0">
-
-                                <h6 class="pb-2">infos etudiant</h6>
-                                <p class="mb-1">Nom: {{ $payment->student ? $payment->student->nom : "" }}</p>
-                                <p class="mb-1">Matricule: {{ $payment->student ? $payment->student->matricule : ""
-                                    }}</p>
-                                <p class="mb-1">contact: {{ $payment->student ? $payment->student->contact : "" }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class=" p-sm-3 p-0">
-
-                                <h6 class="pb-2">infos parent</h6>
-                                <p class="mb-1">Nom: {{ $payment->student ? $payment->student->tuteur->nom : "" }}
-                                </p>
-                                <p class="mb-1">Contact: {{ $payment->student ? $payment->student->tuteur->contact :
-                                    "" }}</p>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table bpayment-top m-0">
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Prix unitaire</th>
-                                    <th>Qte</th>
+                                    <th>etudiant</th>
+                                    <th>parent</th>
+                                    <th>mois</th>
                                     <th>montant</th>
                                 </tr>
                             </thead>
                             <tbody>
+
+                                <tr>
+                                    @foreach ($payment->students as $item)
                                 <tr>
                                     <td></td>
-                                    <td class="text-nowrap">35 000CFA</td>
-                                    <td>{{ $payment->mois }} mois</td>
-                                    <td>
-                                        <h6 class="mb-0"> {{ $payment->montant_format }} </h6>
-                                    </td>
+                                    <td>{{ $item->nom }}</td>
+                                    <td>{{ $item->tuteur->nom }}</td>
+                                    <td>{{ $item->pivot->quantity }} mois</td>
+                                    <td>{{ number_format($item->pivot->montant, 0, ',', ' ').' CFA' }}</td>
                                 </tr>
-
+                                @endforeach
+                                </tr>
                                 <tr>
                                     <td colspan="3" class="align-top px-4 py-5">
                                         <p class="mb-2">
-                                            <span class="me-1 fw-medium">Fournisseur</span>
+                                            <span class="me-1 fw-medium">Sigature et cachet</span>
                                         </p>
                                     </td>
                                     <td class="text-end px-4 py-5">
-                                        <p class="mb-0">Total:</p>
+                                        <h4 class="">Total:</h4>
                                     </td>
                                     <td class="">
-                                        {{ number_format($payment->montant, 0, ',', '
-                                        ') }} CFA
+                                        <h4>{{ number_format($payment->totaux, 0, ',', '
+                                            ') }} CFA</h4>
+
                                     </td>
                                 </tr>
                             </tbody>

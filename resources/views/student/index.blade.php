@@ -9,7 +9,7 @@
             <th>nom</th>
             <th>naissance</th>
             <th>contact</th>
-            <th>date payment</th>
+            <th>prochaine paiement</th>
             <th>Inscription</th>
             <th>Date</th>
             <th>Action</th>

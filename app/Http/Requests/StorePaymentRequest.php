@@ -22,9 +22,9 @@ class StorePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required|exists:students,id',
+            'student_id' => 'required|array|exists:students,id',
             'mois' => 'required|integer',
-            'montant' => 'required|integer',
+            'remise' => 'nullable|integer',
         ];
     }
 }

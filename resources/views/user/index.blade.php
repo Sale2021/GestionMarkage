@@ -19,7 +19,8 @@
             <td>{{ $row->created_at }}</td>
             <td>
                 <x-button-edit href="{{ route('user.edit', ['user' => $row]) }}" />
-                <x-button-delete url="{{ url('user/'.$row->id) }}" />
+                {{--
+                <x-button-delete url="{{ url('user/'.$row->id) }}" /> --}}
             </td>
         </tr>
         @endforeach
