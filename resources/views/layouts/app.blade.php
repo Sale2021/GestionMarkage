@@ -11,7 +11,7 @@
     <!-- Icons. Uncomment required icon fonts -->
     @vite(['resources/css/app.css'])
     {{--
-    <link href="{{ asset('build/assets/app-5afc6b00.css') }}" rel="stylesheet" /> --}}
+    <link href="{{ asset('build/assets/app-CGOJmpd2.css') }}" rel="stylesheet" /> --}}
     <!-- Page CSS -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('assets/js/config.js') }}"></script>

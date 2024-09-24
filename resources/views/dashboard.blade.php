@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    {{-- <div class="col-lg-6 col-md-12 col-6 mb-4">
+    <div class="col-lg-6 col-md-12 col-6 mb-4">
         <div class="card">
             <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
@@ -39,7 +39,7 @@
                 <h3 class="card-title text-nowrap mb-1">{{ number_format($payment, 0, ',', ' ') }} CFA</h3>
             </div>
         </div>
-    </div> --}}
+    </div>
 
 </div>
 @endsection

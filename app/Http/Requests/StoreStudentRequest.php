@@ -26,6 +26,7 @@ class StoreStudentRequest extends FormRequest
             'nom' => 'required|string',
             'contact' => 'required|string',
             'birthday' => 'required|string',
+            'register' => 'required|date',
         ];
     }
 }
