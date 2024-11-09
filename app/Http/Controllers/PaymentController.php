@@ -71,6 +71,7 @@ class PaymentController extends Controller
     public function edit(Payment $payment)
     {
         $student = Student::all();
+        $payment->loadSum('students as totaux', 'payment_student.montant');
 
         return view('payment.update', compact('payment', 'student'));
     }
@@ -80,8 +81,30 @@ class PaymentController extends Controller
      */
     public function update(StorePaymentRequest $request, Payment $payment)
     {
+        // Mise à jour des informations de paiement à partir de la requête validée
         $payment->update($request->validated());
 
+        // Parcourir chaque étudiant lié au paiement
+        foreach ($payment->students as $student) {
+            // Vérification si la quantité de mois de l'étudiant est différente de celle envoyée
+            if ($student->pivot->quantity !== $request->input('mois')) {
+
+                // Calcul du prix par mois pour cet étudiant
+                $prix = $student->pivot->montant / $student->pivot->quantity;
+
+                // Préparation des nouvelles valeurs pour la mise à jour de la quantité et du montant
+                $qte = [
+                    'quantity' => $request->input('mois'),
+                    'montant' => $request->input('mois') * $prix,
+                ];
+
+                // Mise à jour des informations de la table pivot pour cet étudiant
+                $payment->students()->updateExistingPivot($student->id, $qte);
+
+                $date = new Carbon($student->payment);
+                $student->update(['payment' => $date->subMonth(intval($request->mois))]);
+            }
+        }
         toastr()->success('payment mise à jour avec success!');
 
         return back();
@@ -93,6 +116,7 @@ class PaymentController extends Controller
     public function destroy(int $payment)
     {
         $delete = Payment::findOrFail($payment);
+        // $delete->students()->update(['payment' => ]);
 
         return $this->supp($delete);
     }

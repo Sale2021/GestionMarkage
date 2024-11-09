@@ -6,6 +6,7 @@ use App\Helper\DeleteAction;
 use App\Http\Requests\StoreStudentRequest;
 use App\Models\Student;
 use App\Models\Tuteur;
+use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
@@ -55,9 +56,17 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreStudentRequest $request, Student $student)
+    public function update(Request $request, Student $student)
     {
-        $student->update($request->validated());
+        $data = $request->validate([
+            'tuteur_id' => 'required|exists:tuteurs,id',
+            'nom' => 'required|string',
+            'contact' => 'required|string',
+            'birthday' => 'required|string',
+            'register' => 'required|date',
+            'payment' => 'nullable|date',
+        ]);
+        $student->update($data);
 
         toastr()->success('etudiant mise à jour avec success!');
 

@@ -24,7 +24,7 @@
             <td>{{ $row->nom }}</td>
             <td>{{ $row->birthday }}</td>
             <td>{{ $row->contact }}</td>
-            <td><span @class(['text-danger'=> now() >= $row->payment_format])>{{ $row->payment_format }}</span></td>
+            <td><span @class(['text-danger'=> now() >= $row->payment])>{{ $row->payment_format }}</span></td>
             <td>{{ $row->register }}</td>
             <td>{{ $row->created_at }}</td>
             <td>
@@ -41,7 +41,8 @@
         <x-input type="text" name="nom" label="Nom complet" place="le nom complet" />
         <x-input type="date" name="birthday" place="birthday" />
         <x-input type="text" name="contact" place="contact" />
-        <x-input type="date" name="register" label="Inscription" place="inscription" />
+        <x-input type="date" name="register" label="Inscription" />
+
         <x-select name="tuteur_id" class="mt-3" label="liste des parents">
             @foreach ($tuteur as $row)
             <option value="{{ $row->id }}">{{ $row->nom }}</option>
